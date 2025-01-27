@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mondrian Project</title>
+    <style>
+      /* 
+    Write your CSS here 
+    Gap Colour: #000
+    White: #F0F1EC
+    Red: #E72F24
+    Black: #232629
+    Blue: #004592
+    Yellow: #F9D01E
+
+    For dimensions, see dimensions.png image.
+    HINT: Remember you can't change the properties of grid lines.
+    But grid lines are transparent!
+    */
+      * {
+        margin: 0px;
+        padding: 0px;
+        box-sizing: border-box;
+      }
+
+      .container {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .mondrian-painting {
+        height: 748px;
+        width: 748px;
+        background-color: #000;
+        display: grid;
+        grid-template-columns: 320px 198px 153px 50px;
+        grid-template-rows: 414px 130px 155px 22px;
+        gap: 9px;
+      }
+
+      .item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+      }
+
+      .item {
+        background-color: #f0f1ec;
+      }
+
+      .box-1 {
+        background-color: #e72f24;
+      }
+
+      .box-2 {
+        grid-column: span 3;
+      }
+
+      .box-3 {
+        grid-row: span 2;
+      }
+
+      .box-4 {
+        grid-column: span 2;
+        grid-row: span 2;
+      }
+
+      .box-5 {
+        background-color: #004592;
+        border-bottom: solid black 10px;
+      }
+
+      .box-6 {
+        grid-row: span 2;
+      }
+
+      .box-8 {
+        background-color: #f9d01e;
+      }
+
+      .box-9 {
+        background-color: #232629;
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- Write your HTML here -->
+    <div class="container">
+      <div class="mondrian-painting">
+        <div class="item box-1"></div>
+        <div class="item box-2"></div>
+        <div class="item box-3"></div>
+        <div class="item box-4"></div>
+        <div class="item box-5"></div>
+        <div class="item box-6"></div>
+        <div class="item box-7"></div>
+        <div class="item box-8"></div>
+        <div class="item box-9"></div>
+      </div>
+    </div>
+  </body>
+</html>
