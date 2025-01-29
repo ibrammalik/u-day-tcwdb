@@ -26,7 +26,7 @@ body {
 #hero > div {
   display: grid;
   grid-template-columns: 1fr;
-  margin: 2rem 1rem;
+  padding: 2rem 1rem;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(2, 1fr);
@@ -98,4 +98,41 @@ body {
 
 #hero a:hover {
   background-color: var(--gray);
+}
+
+#projects > div {
+  padding: 2rem 1rem;
+}
+
+#projects > div > h2 {
+  margin-bottom: 2rem;
+}
+
+#projects .projects-container {
+  display: grid;
+  grid-template-columns: 1;
+  gap: 1rem;
+}
+
+#projects .projects-container .project {
+  border: 1px solid var(--white);
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: var(--gray);
+}
+
+.project-body {
+  padding: 1rem;
+}
+
+.project-title {
+  margin-bottom: 1rem;
+}
+
+.project-thumbnail {
+  width: 100%;
+}
+
+.project-description {
+  font-weight: 200;
 }
