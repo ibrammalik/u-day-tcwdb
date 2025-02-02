@@ -7,7 +7,19 @@ const tom3Sound = new Audio('./sounds/tom-3.mp3');
 const tom4Sound = new Audio('./sounds/tom-4.mp3');
 
 document.addEventListener('keypress', (event) => {
-  const key = event.key;
+  playSound(event.key);
+});
+
+const buttons = document.querySelectorAll('button');
+
+buttons.forEach((button) => {
+  button.addEventListener('click', (event) => {
+    const key = event.target.classList[0];
+    playSound(key);
+  });
+});
+
+function playSound(key) {
   switch (key) {
     case 'w':
       crashSound.currentTime = 0;
@@ -37,4 +49,4 @@ document.addEventListener('keypress', (event) => {
       tom4Sound.currentTime = 0;
       tom4Sound.play();
   }
-});
+}
