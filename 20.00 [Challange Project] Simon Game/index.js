@@ -28,57 +28,79 @@
  * - If not same, Game over.
  */
 // button order [ green, red, yellow, blue]
-const buttons = $('.btn');
-const simonPattern = [];
-const sounds = [
-  new Audio('./sounds/green.mp3'),
-  new Audio('./sounds/red.mp3'),
-  new Audio('./sounds/yellow.mp3'),
-  new Audio('./sounds/blue.mp3'),
-];
-
 const buttonIndex = {
   green: 0,
   red: 1,
   yellow: 2,
   blue: 3,
 };
-
-let isGameStarted = false;
-let playerCanPush = false;
-let level = 0;
+const sounds = [
+  new Audio('./sounds/green.mp3'),
+  new Audio('./sounds/red.mp3'),
+  new Audio('./sounds/yellow.mp3'),
+  new Audio('./sounds/blue.mp3'),
+];
+const wrongSounds = new Audio('./sounds/wrong.mp3');
+let buttonsElement = [];
+let simonPattern = [];
 let playerPattern = [];
+let level = 0;
+let playerCanPush = false;
+let gameStarted = false;
+
+const delay = (ms) => new Promise((res) => setTimeout(res, ms));
+
+function lightUpButton(button) {
+  const sound = new Audio(`./sounds/${button.id}.mp3`);
+  sound.play();
+  $(button).addClass('pressed');
+  setTimeout(() => {
+    $(button).removeClass('pressed');
+  }, 200);
+}
 
 $(document).ready(() => {
-  $(document).on('keydown', (event) => {
-    isGameStarted = true;
-    startLevel();
+  $(document).on('keydown', () => {
+    if (gameStarted) return;
+    newGame();
   });
+
+  buttonsElement = $('.btn');
+  buttonsElement.on('click', handleUserInput);
 });
 
-const timer = (ms) => new Promise((res) => setTimeout(res, ms));
+function newGame() {
+  gameStarted = true;
+  simonPattern = [];
+  playerPattern = [];
+  level = 0;
+  nextLevel();
+}
 
-async function startLevel() {
+function nextLevel() {
+  playerCanPush = false;
+  playerPattern = [];
+  level++;
+  $('#level-title').text('Level ' + level);
   const randomNumber0to3 = Math.floor(Math.random() * 4);
   simonPattern.push(randomNumber0to3);
-  level = simonPattern.length;
-  playerPattern = [];
+  playSimonSequences();
+}
 
-  console.log(level);
-  $('#level-title').text('Level ' + level);
-
+async function playSimonSequences() {
   // show button sequences
-  await timer(1000);
+  await delay(2000);
   for (let i = 0; i < simonPattern.length; i++) {
-    buttonClickHandler(buttons[simonPattern[i]]);
-    await timer(1000);
+    lightUpButton(buttonsElement[simonPattern[i]]);
+    await delay(1000);
   }
 
-  // do something when interval is done
+  // after sequences end, user can push button
+  // and the function handleUserInput will check player sequences
   playerCanPush = true;
 }
 
-buttons.on('click', function () {
+function handleUserInput() {
   if (!playerCanPush) return;
 
   // Check answer
@@ -87,25 +109,23 @@ buttons.on('click', function () {
 
   // if the answer is wrong = game over
   if (simonPattern[patternIndex] !== playerPattern[patternIndex]) {
-    isGameStarted = false;
-    playerCanPush = false;
-    $('#level-title').text('GAME OVER');
+    gameOver();
+    return;
   } else if (simonPattern.length === playerPattern.length) {
-    playerCanPush = false;
-    setTimeout(() => {
-      startLevel();
-    }, 1000);
+    nextLevel();
   }
 
   // Animate and play sound
-  buttonClickHandler(this);
-});
+  lightUpButton(this);
+}
 
-function buttonClickHandler(button) {
-  const sound = new Audio(`./sounds/${button.id}.mp3`);
-  sound.play();
-  $(button).addClass('pressed');
+function gameOver() {
+  playerCanPush = false;
+  gameStarted = false;
+  wrongSounds.play();
+  $('#level-title').text('GAME OVER, Press any key to restart');
+  $('body').addClass('game-over');
   setTimeout(() => {
-    $(button).removeClass('pressed');
+    $('body').removeClass('game-over');
   }, 200);
 }
